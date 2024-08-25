@@ -1,0 +1,53 @@
+﻿@page "/login"
+@using Microsoft.EntityFrameworkCore
+@using TiendaBlazor.Data
+@inject CustomAuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager Navigation
+@inject ApplicationDbContext _context
+
+<h3>Login</h3>
+
+<div class="mb-3">
+    <label for="correo" class="form-label">Correo electrónico</label>
+    <input @bind="correo" id="correo" class="form-control" />
+</div>
+<div class="mb-3">
+    <label for="contraseña" class="form-label">Contraseña</label>
+    <input @bind="contraseña" id="contraseña" type="password" class="form-control" />
+</div>
+<button @onclick="HandleLogin" class="btn btn-primary">Iniciar Sesión</button>
+
+@if (loginFailed)
+{
+    <div class="alert alert-danger mt-3">Usuario o contraseña incorrectos</div>
+}
+
+@code {
+    private string correo;
+    private string contraseña;
+    private bool loginFailed;
+
+    private async Task HandleLogin()
+    {
+        var user = await _context.Usuarios
+            .FirstOrDefaultAsync(u => u.Correo == correo && u.Contraseña == contraseña);
+
+        if (user != null)
+        {
+            AuthenticationStateProvider.MarkUserAsAuthenticated(user.Correo);
+
+            if (user.Rol == "Admin")
+            {
+                Navigation.NavigateTo("/admin-page"); 
+            }
+            else if (user.Rol == "Cliente")
+            {
+                Navigation.NavigateTo("/cliente-page"); 
+            }
+        }
+        else
+        {
+            loginFailed = true; 
+        }
+    }
+}
