@@ -1,54 +1,22 @@
 ﻿@page "/login"
-@using Microsoft.EntityFrameworkCore
-@using TiendaBlazor.Data
-@inject AuthenticationStateProvider AuthenticationStateProvider
-@inject NavigationManager Navigation
-@inject ApplicationDbContext _context
 
-<h3>Login</h3>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h3 class="text-center">Login</h3>
 
-<div class="mb-3">
-    <label for="correo" class="form-label">Correo electrónico</label>
-    <input @bind="correo" id="correo" class="form-control" />
-</div>
-<div class="mb-3">
-    <label for="contraseña" class="form-label">Contraseña</label>
-    <input @bind="contraseña" id="contraseña" type="password" class="form-control" />
-</div>
-<button @onclick="HandleLogin" class="btn btn-primary">Iniciar Sesión</button>
+        <div class="mb-3">
+            <label for="correo" class="form-label">Correo electrónico</label>
+            <input @bind="correo" id="correo" class="form-control" />
+        </div>
+        <div class="mb3">
+            <label for="contraseña" class="form-label">Contraseña</label>
+            <input @bind="contraseña" id="contraseña" type="password" class="form-control" />
+        </div>
+        <button @onclick="HandleLogin" class="btn btn-primary btn-block">Iniciar Sesión</button>
 
-@if (loginFailed)
-{
-    <div class="alert alert-danger mt-3">Usuario o contraseña incorrectos</div>
-}
-
-@code {
-    private string correo;
-    private string contraseña;
-    private bool loginFailed;
-
-    private async Task HandleLogin()
-    {
-        var user = await _context.Usuarios
-            .FirstOrDefaultAsync(u => u.Correo == correo && u.Contraseña == contraseña);
-
-        if (user != null)
+        @if (loginFailed)
         {
-            var customAuthStateProvider = (CustomAuthenticationStateProvider)AuthenticationStateProvider;
-            customAuthStateProvider.MarkUserAsAuthenticated(user.Correo);
-
-            if (user.Rol == "Admin")
-            {
-                Navigation.NavigateTo("/admin-page");
-            }
-            else if (user.Rol == "Cliente")
-            {
-                Navigation.NavigateTo("/cliente-page");
-            }
+            <div class="alert alert-danger mt-3 text-center">Usuario o contraseña incorrectos</div>
         }
-        else
-        {
-            loginFailed = true;
-        }
-    }
-}
+    </div>
+</div>

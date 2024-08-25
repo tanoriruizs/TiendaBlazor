@@ -1,43 +1,41 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
 using TiendaBlazor.Data;
-using Microsoft.EntityFrameworkCore;
 
 public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 {
+    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ApplicationDbContext _context;
 
-    public CustomAuthenticationStateProvider(ApplicationDbContext context)
+    public CustomAuthenticationStateProvider(IHttpContextAccessor httpContextAccessor, ApplicationDbContext context)
     {
+        _httpContextAccessor = httpContextAccessor;
         _context = context;
     }
 
-    public override async Task<AuthenticationState> GetAuthenticationStateAsync()
+    public override Task<AuthenticationState> GetAuthenticationStateAsync()
     {
         var claimsIdentity = new ClaimsIdentity();
+        var userPrincipal = _httpContextAccessor.HttpContext?.User;
 
-        var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Correo == "admin@correo.com");
-
-        if (user != null)
+        if (userPrincipal?.Identity != null && userPrincipal.Identity.IsAuthenticated)
         {
-            claimsIdentity = new ClaimsIdentity(new[]
-            {
-                new Claim(ClaimTypes.Name, user.Correo),
-                new Claim(ClaimTypes.Role, user.Rol),
-            }, "CustomAuthentication");
+            claimsIdentity = (ClaimsIdentity)userPrincipal.Identity;
         }
 
         var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-        return await Task.FromResult(new AuthenticationState(claimsPrincipal));
+        return Task.FromResult(new AuthenticationState(claimsPrincipal));
     }
 
-    public void MarkUserAsAuthenticated(string correo)
+    public void MarkUserAsAuthenticated(string correo, string rol)
     {
-        var claimsIdentity = new ClaimsIdentity(new[]
-        {
-            new Claim(ClaimTypes.Name, correo),
-        }, "apiauth_type");
+        var claims = new List<Claim>
+    {
+        new Claim(ClaimTypes.Name, correo),
+        new Claim(ClaimTypes.Role, rol)  
+    };
 
+        var claimsIdentity = new ClaimsIdentity(claims, "apiauth_type");
         var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(claimsPrincipal)));

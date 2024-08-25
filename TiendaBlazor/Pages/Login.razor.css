@@ -1,0 +1,29 @@
+﻿/* Login.razor.css */
+
+.row {
+    margin-top: 50px;
+}
+
+h3 {
+    color: #007bff;
+}
+
+.form-control {
+    border-radius: 0.5rem;
+    border-color: #007bff;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+.alert-danger {
+    background-color: #ffdddd;
+    color: #ff0000;
+}
