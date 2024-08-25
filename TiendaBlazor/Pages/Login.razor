@@ -1,7 +1,7 @@
 ﻿@page "/login"
 @using Microsoft.EntityFrameworkCore
 @using TiendaBlazor.Data
-@inject CustomAuthenticationStateProvider AuthenticationStateProvider
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager Navigation
 @inject ApplicationDbContext _context
 
@@ -34,20 +34,21 @@
 
         if (user != null)
         {
-            AuthenticationStateProvider.MarkUserAsAuthenticated(user.Correo);
+            var customAuthStateProvider = (CustomAuthenticationStateProvider)AuthenticationStateProvider;
+            customAuthStateProvider.MarkUserAsAuthenticated(user.Correo);
 
             if (user.Rol == "Admin")
             {
-                Navigation.NavigateTo("/admin-page"); 
+                Navigation.NavigateTo("/admin-page");
             }
             else if (user.Rol == "Cliente")
             {
-                Navigation.NavigateTo("/cliente-page"); 
+                Navigation.NavigateTo("/cliente-page");
             }
         }
         else
         {
-            loginFailed = true; 
+            loginFailed = true;
         }
     }
 }
