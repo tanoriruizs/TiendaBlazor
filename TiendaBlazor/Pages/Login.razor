@@ -1,22 +1,36 @@
 ﻿@page "/login"
 
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <h3 class="text-center">Login</h3>
-
-        <div class="mb-3">
-            <label for="correo" class="form-label">Correo electrónico</label>
-            <input @bind="correo" id="correo" class="form-control" />
+<div class="fullscreen-div">
+    <div class="container">
+        <div class="logo text-center">
+            <img src="/img/logo.png" alt="Logo" />
         </div>
-        <div class="mb3">
-            <label for="contraseña" class="form-label">Contraseña</label>
-            <input @bind="contraseña" id="contraseña" type="password" class="form-control" />
-        </div>
-        <button @onclick="HandleLogin" class="btn btn-primary btn-block">Iniciar Sesión</button>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-4 login-container">
+            <div class="mb-3">
+                <input @bind="correo" id="correo" class="form-control" placeholder="Email" />
+            </div>
+            <div class="mb-3">
+                <input @bind="contraseña" id="contraseña" type="password" class="form-control" placeholder="Contraseña" />
+            </div>
+            <button @onclick="HandleLogin" class="btn btn-primary btn-block">Ingresar</button>
+            <div class="alert-container">
+                @if (loginFailed)
+                {
+                    <div class="alert alert-danger text-center">Usuario o contraseña incorrectos</div>
+                }
+            </div>
+            <div class="text-center container-info">
+                <p>¿Aún no tienes cuenta?</p>
+                <a href="/register" class="text-decoration-none">Regístrate</a>
+            </div>
 
-        @if (loginFailed)
-        {
-            <div class="alert alert-danger mt-3 text-center">Usuario o contraseña incorrectos</div>
-        }
+
+
+            <div class="footer text-center mt-4">
+                <p>Sebastian Gpe Tanori Ruiz | tanoriruizs@gmail.com</p>
+            </div>
+        </div>
     </div>
 </div>
