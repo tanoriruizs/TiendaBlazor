@@ -34,7 +34,7 @@ namespace TiendaBlazor.Pages
                 // Redirige al usuario según su rol
                 if (user.Rol == "Admin")
                 {
-                    Navigation.NavigateTo("/admin-page");
+                    Navigation.NavigateTo("/admin-productos");
                 }
                 else if (user.Rol == "Cliente")
                 {

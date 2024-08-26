@@ -1,0 +1,109 @@
+﻿@page "/admin-productos"
+@using BlazorWeb.Models
+@using BlazorWeb.Services
+@attribute [Authorize(Roles = "Admin")]
+
+@inject ProductoService ProductoService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+
+<h1>Productos</h1>
+
+<div class="mb-3">
+    <label for="search" class="form-label">Buscar por nombre:</label>
+    <InputText id="search" class="form-control" @bind-Value="searchTerm" placeholder="Ingrese el nombre del producto..." />
+</div>
+
+@if (productosFiltrados == null)
+{
+    <p><em>Cargando productos...</em></p>
+}
+else if (!productosFiltrados.Any())
+{
+    <p>No se encontraron productos.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var producto in productosFiltrados)
+            {
+                <tr>
+                    <td>
+                        @if (producto.Imagen != null && producto.Imagen.Length > 0)
+                        {
+                            <img src="data:@producto.TipoImagen;base64,@Convert.ToBase64String(producto.Imagen)" alt="@producto.Nombre" width="100" />
+                        }
+                        else
+                        {
+                            <span>No disponible</span>
+                        }
+                    </td>
+                    <td>@producto.Nombre</td>
+                    <td>@producto.Precio:C</td> <!-- Formato de moneda -->
+                    <td>@producto.Stock</td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => EditarProducto(producto.Id)">Editar</button>
+                        <button class="btn btn-danger" @onclick="() => EliminarProducto(producto.Id)">Eliminar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Producto> productos;
+    private List<Producto> productosFiltrados;
+    private string searchTerm = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        productos = (await ProductoService.GetAllProductosAsync()).ToList();
+        productosFiltrados = productos;
+    }
+
+    private void EditarProducto(int id)
+    {
+        // Navegar a la página de edición de productos
+        NavigationManager.NavigateTo($"/editar-producto/{id}");
+    }
+
+    private async Task EliminarProducto(int id)
+    {
+        // Confirmar eliminación
+        bool confirmado = await JsRuntime.InvokeAsync<bool>("confirm", $"¿Estás seguro de que deseas eliminar el producto con Id {id}?");
+        if (confirmado)
+        {
+            await ProductoService.DeleteProductoAsync(id);
+            productos = (await ProductoService.GetAllProductosAsync()).ToList(); // Actualizar la lista de productos
+            FiltrarProductos(); // Volver a filtrar después de eliminar
+        }
+    }
+
+    private void FiltrarProductos()
+    {
+        if (string.IsNullOrWhiteSpace(searchTerm))
+        {
+            productosFiltrados = productos;
+        }
+        else
+        {
+            productosFiltrados = productos.Where(p => p.Nombre.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        FiltrarProductos();
+    }
+}

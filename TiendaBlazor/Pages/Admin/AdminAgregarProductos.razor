@@ -1,0 +1,56 @@
+﻿@page "/admin-agregar"
+@using BlazorWeb.Models
+@using BlazorWeb.Services
+@attribute [Authorize(Roles = "Admin")]
+
+@inject ProductoService ProductoService
+@inject NavigationManager NavigationManager
+
+<h3>Agregar Producto</h3>
+
+<EditForm Model="nuevoProducto" OnValidSubmit="AgregarProducto">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre</label>
+        <InputText id="nombre" class="form-control" @bind-Value="nuevoProducto.Nombre" />
+    </div>
+    <div class="mb-3">
+        <label for="descripcion" class="form-label">Descripción</label>
+        <InputTextArea id="descripcion" class="form-control" @bind-Value="nuevoProducto.Descripcion" />
+    </div>
+    <div class="mb-3">
+        <label for="precio" class="form-label">Precio</label>
+        <InputNumber id="precio" class="form-control" @bind-Value="nuevoProducto.Precio" />
+    </div>
+    <div class="mb-3">
+        <label for="stock" class="form-label">Stock</label>
+        <InputNumber id="stock" class="form-control" @bind-Value="nuevoProducto.Stock" />
+    </div>
+    <div class="mb-3">
+        <label for="imagen" class="form-label">Imagen</label>
+        <InputFile id="imagen" class="form-control" OnChange="OnInputFileChange" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Agregar Producto</button>
+</EditForm>
+
+@code {
+    private Producto nuevoProducto = new Producto();
+
+    private async Task AgregarProducto()
+    {
+        await ProductoService.AddProductoAsync(nuevoProducto);
+        NavigationManager.NavigateTo("/admin-productos"); // Redirige a una página de listado de productos
+    }
+
+    private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        var buffer = new byte[file.Size];
+        await file.OpenReadStream().ReadAsync(buffer);
+        nuevoProducto.Imagen = buffer;
+        nuevoProducto.TipoImagen = file.ContentType;
+    }
+}
