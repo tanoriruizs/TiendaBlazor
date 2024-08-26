@@ -27,5 +27,7 @@
 </div>
 
 @code {
-    private bool IsSpecialPage => Navigation.Uri.EndsWith("/") || Navigation.Uri.Contains("/login");
+    private bool IsSpecialPage => Navigation.Uri.EndsWith("/") ||
+                                  Navigation.Uri.Contains("/login") ||
+                                  Navigation.Uri.Contains("/register");
 }

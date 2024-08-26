@@ -17,8 +17,8 @@ namespace TiendaBlazor.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Usuario>().HasData(
-                new Usuario { Id = 1, Correo = "admin@correo.com", Contraseña = "admin123", Rol = "Admin" },
-                new Usuario { Id = 2, Correo = "cliente@correo.com", Contraseña = "cliente123", Rol = "Cliente" }
+                new Usuario { Id = 1, Nombre = "Admin", Correo = "admin@correo.com", Contraseña = "admin123", Rol = "Admin" },
+                new Usuario { Id = 2, Nombre = "Cliente", Correo = "cliente@correo.com", Contraseña = "cliente123", Rol = "Cliente" }
             );
         }
 

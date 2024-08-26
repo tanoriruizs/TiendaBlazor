@@ -36,6 +36,7 @@ namespace TiendaBlazor.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Correo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Contraseña = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rol = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -74,11 +75,11 @@ namespace TiendaBlazor.Migrations
 
             migrationBuilder.InsertData(
                 table: "Usuarios",
-                columns: new[] { "Id", "Contraseña", "Correo", "Rol" },
+                columns: new[] { "Id", "Contraseña", "Correo", "Nombre", "Rol" },
                 values: new object[,]
                 {
-                    { 1, "admin123", "admin@correo.com", "Admin" },
-                    { 2, "cliente123", "cliente@correo.com", "Cliente" }
+                    { 1, "admin123", "admin@correo.com", "Admin", "Admin" },
+                    { 2, "cliente123", "cliente@correo.com", "Cliente", "Cliente" }
                 });
 
             migrationBuilder.CreateIndex(

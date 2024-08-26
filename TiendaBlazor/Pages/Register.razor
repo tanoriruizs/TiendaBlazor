@@ -1,74 +1,36 @@
 ﻿@page "/register"
-@using BlazorWeb.Models
-@using TiendaBlazor.Data
 
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <h3 class="text-center">Crear Cuenta</h3>
-
-        <div class="mb-3">
-            <label for="correo" class="form-label">Correo electrónico</label>
-            <input @bind="correo" id="correo" class="form-control" />
+<div class="fullscreen-div">
+    <div class="container">
+        <div class="logo text-center">
+            <img src="/img/logo.png" alt="Logo" />
         </div>
-        <div class="mb-3">
-            <label for="contraseña" class="form-label">Contraseña</label>
-            <input @bind="contraseña" id="contraseña" type="password" class="form-control" />
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-4 login-container">
+            <div class="mb-3">
+                <input @bind="nombre" id="nombre" class="form-control" placeholder="Nombre" /> <!-- Nuevo campo para el nombre -->
+            </div>
+            <div class="mb-3">
+                <input @bind="correo" id="correo" class="form-control" placeholder="Email" />
+            </div>
+            <div class="mb-3">
+                <input @bind="contraseña" id="contraseña" type="password" class="form-control" placeholder="Contraseña" />
+            </div>
+            <div class="mb-3">
+                <input @bind="confirmarContraseña" id="confirmarContraseña" type="password" class="form-control" placeholder="Confirmar Contraseña" />
+            </div>
+            <button @onclick="HandleRegister" class="btn btn-primary btn-block">Registrarse</button>
+            <div class="alert-container">
+                @if (registrationFailed)
+                {
+                    <div class="alert alert-danger text-center">Error en el registro, intenta de nuevo</div>
+                }
+            </div>
+            <div class="text-center container-info">
+                <p>¿Ya tienes cuenta?</p>
+                <a href="/login" class="text-decoration-none">Inicia sesión</a>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="confirmarContraseña" class="form-label">Confirmar Contraseña</label>
-            <input @bind="confirmarContraseña" id="confirmarContraseña" type="password" class="form-control" />
-        </div>
-        <button @onclick="HandleRegister" class="btn btn-primary btn-block">Registrar</button>
-
-        @if (registrationFailed)
-        {
-            <div class="alert alert-danger mt-3 text-center">Error al crear la cuenta. Inténtalo de nuevo.</div>
-        }
-
-        @if (passwordsDoNotMatch)
-        {
-            <div class="alert alert-danger mt-3 text-center">Las contraseñas no coinciden.</div>
-        }
     </div>
 </div>
-
-@code {
-    private string correo;
-    private string contraseña;
-    private string confirmarContraseña;
-    private bool registrationFailed;
-    private bool passwordsDoNotMatch;
-
-    [Inject]
-    private ApplicationDbContext _context { get; set; }
-
-    [Inject]
-    private NavigationManager Navigation { get; set; }
-
-    private async Task HandleRegister()
-    {
-        passwordsDoNotMatch = contraseña != confirmarContraseña;
-
-        if (!passwordsDoNotMatch)
-        {
-            try
-            {
-                var newUser = new Usuario
-                    {
-                        Correo = correo,
-                        Contraseña = contraseña,
-                        Rol = "Cliente"
-                    };
-
-                _context.Usuarios.Add(newUser);
-                await _context.SaveChangesAsync();
-
-                Navigation.NavigateTo("/login");
-            }
-            catch
-            {
-                registrationFailed = true;
-            }
-        }
-    }
-}

@@ -11,7 +11,7 @@ using TiendaBlazor.Data;
 namespace TiendaBlazor.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240825164854_FirstMigration")]
+    [Migration("20240825235542_FirstMigration")]
     partial class FirstMigration
     {
         /// <inheritdoc />
@@ -101,6 +101,10 @@ namespace TiendaBlazor.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Rol")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -115,6 +119,7 @@ namespace TiendaBlazor.Migrations
                             Id = 1,
                             Contraseña = "admin123",
                             Correo = "admin@correo.com",
+                            Nombre = "Admin",
                             Rol = "Admin"
                         },
                         new
@@ -122,6 +127,7 @@ namespace TiendaBlazor.Migrations
                             Id = 2,
                             Contraseña = "cliente123",
                             Correo = "cliente@correo.com",
+                            Nombre = "Cliente",
                             Rol = "Cliente"
                         });
                 });
