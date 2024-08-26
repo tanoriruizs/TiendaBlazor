@@ -1,23 +1,85 @@
-﻿/*.table-hover tbody tr:hover {
-    background-color: #f8f9fa;
+﻿.container-style {
+    max-width: 100%;
+    color: white;
+    border-radius: 1rem;
+    background-color: #353C59;
+    padding: 1rem;
 }
 
-.table th,
-.table td {
+
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #E0E3F0;
+}
+
+.table-striped tbody tr:nth-child(even) {
+    background-color: #F8F8FB;
+}
+
+.table thead {
+    background-color: #353C59;
+    color: white;
+}
+
+th, td {
+    text-align: center;
     vertical-align: middle;
 }
 
-.img-thumbnail {
-    border: none;
-    border-radius: 5px;
+td {
+    font-weight: bold;
 }
 
-.pagination .page-link {
-    color: #0d6efd;
+#Precio-style {
+    color: #D15253;
+
 }
 
-.pagination .page-link:hover {
-    background-color: #0d6efd;
+    th {
+        padding: 10px;
+    }
+
+td {
+    padding: 15px;
+}
+
+img {
+    width: 100px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.actions-cell {
+    text-align: center;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-style {
+    background-color: #353C59;
+    border-radius: 0.5rem;
+    padding: 8px 12px;
     color: white;
+    font-size: 14px;
+    border: none;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+    cursor: pointer;
 }
-*/
+
+    .btn-style:hover {
+        background-color: #272d45;
+    }
+
+    .btn-style:active {
+        transform: scale(0.95);
+    }
+
+    .btn-style:focus {
+        outline: none;
+        box-shadow: none;
+    }
+

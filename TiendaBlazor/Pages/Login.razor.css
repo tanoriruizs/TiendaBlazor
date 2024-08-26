@@ -68,13 +68,14 @@ h3 {
     }
 
 .btn-primary {
+    width: 100%;
+    max-width: 22%;
     background-color: #353C59;
     font-size: 18px;
     font-weight: bold;
     padding: 10px;
     border-radius: 0.5rem;
     border: none;
-    width: 30%;
     transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 

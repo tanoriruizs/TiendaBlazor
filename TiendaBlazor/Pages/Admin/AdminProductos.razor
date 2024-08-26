@@ -7,12 +7,18 @@
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
 
-<h1>Productos</h1>
+
+<div class="container text-center container-style mb-3">
+    <h2>Productos</h2>
+</div>
 
 <div class="mb-3">
-    <label for="search" class="form-label">Buscar por nombre:</label>
-    <InputText id="search" class="form-control" @bind-Value="searchTerm" placeholder="Ingrese el nombre del producto..." />
+    <InputText class="form-control custom-input" id="search" @bind-Value="searchTerm" placeholder="Ingrese la categoría."
+               @oninput="Buscar" />
 </div>
+
+
+
 
 @if (productosFiltrados == null)
 {
@@ -29,9 +35,10 @@ else
             <tr>
                 <th>Imagen</th>
                 <th>Nombre</th>
+                <th>Categoria</th>
                 <th>Precio</th>
                 <th>Stock</th>
-                <th>Acciones</th>
+                <th class="actions-header">Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -49,11 +56,19 @@ else
                         }
                     </td>
                     <td>@producto.Nombre</td>
-                    <td>@producto.Precio:C</td> <!-- Formato de moneda -->
+                    <td>@producto.Categoria</td>
+                    <td id="Precio-style">@producto.Precio.ToString("C", new System.Globalization.CultureInfo("en-US"))</td>
                     <td>@producto.Stock</td>
-                    <td>
-                        <button class="btn btn-primary" @onclick="() => EditarProducto(producto.Id)">Editar</button>
-                        <button class="btn btn-danger" @onclick="() => EliminarProducto(producto.Id)">Eliminar</button>
+                    <td class="actions-cell">
+                        <div class="action-buttons">
+                            <button class="btn btn-primary btn-style" @onclick="() => EditarProducto(producto.Id)">
+                                <i class="bi bi-pencil"></i> Editar
+                            </button>
+                            <button class="btn btn-danger btn-style" @onclick="() => EliminarProducto(producto.Id)">
+                                <i class="bi bi-trash"></i> Eliminar
+                            </button>
+
+                        </div>
                     </td>
                 </tr>
             }
@@ -61,49 +76,3 @@ else
     </table>
 }
 
-@code {
-    private List<Producto> productos;
-    private List<Producto> productosFiltrados;
-    private string searchTerm = string.Empty;
-
-    protected override async Task OnInitializedAsync()
-    {
-        productos = (await ProductoService.GetAllProductosAsync()).ToList();
-        productosFiltrados = productos;
-    }
-
-    private void EditarProducto(int id)
-    {
-        // Navegar a la página de edición de productos
-        NavigationManager.NavigateTo($"/editar-producto/{id}");
-    }
-
-    private async Task EliminarProducto(int id)
-    {
-        // Confirmar eliminación
-        bool confirmado = await JsRuntime.InvokeAsync<bool>("confirm", $"¿Estás seguro de que deseas eliminar el producto con Id {id}?");
-        if (confirmado)
-        {
-            await ProductoService.DeleteProductoAsync(id);
-            productos = (await ProductoService.GetAllProductosAsync()).ToList(); // Actualizar la lista de productos
-            FiltrarProductos(); // Volver a filtrar después de eliminar
-        }
-    }
-
-    private void FiltrarProductos()
-    {
-        if (string.IsNullOrWhiteSpace(searchTerm))
-        {
-            productosFiltrados = productos;
-        }
-        else
-        {
-            productosFiltrados = productos.Where(p => p.Nombre.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
-        }
-    }
-
-    protected override void OnParametersSet()
-    {
-        FiltrarProductos();
-    }
-}

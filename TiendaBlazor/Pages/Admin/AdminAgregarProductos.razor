@@ -6,7 +6,9 @@
 @inject ProductoService ProductoService
 @inject NavigationManager NavigationManager
 
-<h3>Agregar Producto</h3>
+<div class="container text-center container-style mb-3">
+    <h2>Agregar Producto</h2>
+</div>
 
 <EditForm Model="nuevoProducto" OnValidSubmit="AgregarProducto">
     <DataAnnotationsValidator />
@@ -27,6 +29,16 @@
     <div class="mb-3">
         <label for="stock" class="form-label">Stock</label>
         <InputNumber id="stock" class="form-control" @bind-Value="nuevoProducto.Stock" />
+    </div>
+    <div class="mb-3">
+        <label for="categoria" class="form-label">Categoría</label>
+        <InputSelect id="categoria" class="form-control" @bind-Value="nuevoProducto.Categoria">
+            <option value="">Seleccione una categoría</option>
+            <option value="Electronicos">Electrónicos</option>
+            <option value="Ropa">Ropa</option>
+            <option value="Calzado">Calzado</option>
+            <option value="LineaBlanca">Línea Blanca</option>
+        </InputSelect>
     </div>
     <div class="mb-3">
         <label for="imagen" class="form-label">Imagen</label>

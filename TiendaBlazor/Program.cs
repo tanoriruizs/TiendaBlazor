@@ -11,18 +11,24 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpContextAccessor(); // Registro de HttpContextAccessor
+
+// Configurar la conexión a la base de datos
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Configurar autenticación basada en cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/login"; 
+        options.LoginPath = "/login";
     });
 
-builder.Services.AddHttpContextAccessor();
+// Registrar el CustomAuthenticationStateProvider
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+builder.Services.AddScoped<CustomAuthenticationStateProvider>(); // Esto permite la inyección directa de CustomAuthenticationStateProvider
+
+// Registrar otros servicios
 builder.Services.AddScoped<ProductoService>();
 
 var app = builder.Build();
@@ -39,7 +45,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication();  
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapBlazorHub();

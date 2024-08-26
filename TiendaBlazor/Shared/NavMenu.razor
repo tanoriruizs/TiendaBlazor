@@ -33,6 +33,11 @@
             </div>
         }
 
+        <div class="nav-item px-3">
+            <NavLink href="#" class="nav-link" @onclick="LogoutAsync">
+                Cerrar Sesión
+            </NavLink>
+        </div>
     </nav>
 </div>
 
@@ -45,6 +50,12 @@
 
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    [Inject]
+    private CustomAuthenticationStateProvider AuthenticationStateProvider { get; set; }
+
+    [Inject]
+    private NavigationManager Navigation { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -61,5 +72,12 @@
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+    }
+
+    private async Task LogoutAsync()
+    {
+        AuthenticationStateProvider.MarkUserAsLoggedOut();
+        await Task.Delay(100); // Pequeño retraso para asegurar que el estado se actualiza
+        Navigation.NavigateTo("/login", forceLoad: true);
     }
 }
