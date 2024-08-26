@@ -1,4 +1,5 @@
-﻿using BlazorWeb.Models;
+﻿using TiendaBlazor.Models;
+using TiendaBlazor.Services;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace TiendaBlazor.Pages.Admin

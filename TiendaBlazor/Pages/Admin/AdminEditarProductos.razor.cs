@@ -1,4 +1,4 @@
-﻿using BlazorWeb.Models;
+﻿using TiendaBlazor.Models;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components;
 

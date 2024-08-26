@@ -1,10 +1,11 @@
-﻿using BlazorWeb.Models;
+﻿
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TiendaBlazor.Data;
+using TiendaBlazor.Models;
 
-namespace BlazorWeb.Services
+namespace TiendaBlazor.Services
 {
     public class ProductoService
     {

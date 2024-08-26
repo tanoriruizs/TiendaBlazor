@@ -1,4 +1,4 @@
-﻿using BlazorWeb.Models;
+﻿using TiendaBlazor.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace TiendaBlazor.Data

@@ -1,4 +1,4 @@
-﻿using BlazorWeb.Models;
+﻿using TiendaBlazor.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore;

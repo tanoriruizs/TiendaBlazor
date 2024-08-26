@@ -1,55 +1,53 @@
-﻿using BlazorWeb.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using TiendaBlazor.Data;
+﻿using TiendaBlazor.Models;
 
-namespace BlazorWeb.Services
+namespace TiendaBlazor.Services
 {
     public class CarritoService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly List<Carrito> _carritoItems = new List<Carrito>();
 
-        public CarritoService(ApplicationDbContext context)
+        public Task<IEnumerable<Carrito>> GetCarritoItemsAsync(int usuarioId)
         {
-            _context = context;
+            return Task.FromResult(_carritoItems.Where(c => c.UsuarioId == usuarioId).AsEnumerable());
         }
 
-        public async Task<List<Carrito>> GetAllCarritosAsync(int userId)
+        public Task AgregarAlCarritoAsync(int usuarioId, Producto producto, int cantidad = 1)
         {
-            return await _context.Carritos
-                                 .Include(c => c.Producto)
-                                 .Where(c => c.UsuarioId == userId)
-                                 .ToListAsync();
-        }
+            var itemExistente = _carritoItems.FirstOrDefault(c => c.UsuarioId == usuarioId && c.ProductoId == producto.Id);
 
-        public async Task<Carrito> GetCarritoByIdAsync(int id)
-        {
-            return await _context.Carritos
-                                 .Include(c => c.Producto)
-                                 .FirstOrDefaultAsync(c => c.Id == id);
-        }
-
-        public async Task AddCarritoAsync(Carrito carrito)
-        {
-            _context.Carritos.Add(carrito);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateCarritoAsync(Carrito carrito)
-        {
-            _context.Carritos.Update(carrito);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteCarritoAsync(int id)
-        {
-            var carrito = await _context.Carritos.FindAsync(id);
-            if (carrito != null)
+            if (itemExistente != null)
             {
-                _context.Carritos.Remove(carrito);
-                await _context.SaveChangesAsync();
+                itemExistente.Cantidad += cantidad;
             }
+            else
+            {
+                _carritoItems.Add(new Carrito
+                {
+                    UsuarioId = usuarioId,
+                    ProductoId = producto.Id,
+                    Producto = producto,
+                    Cantidad = cantidad
+                });
+            }
+
+            return Task.CompletedTask;
+        }
+
+        public Task EliminarDelCarritoAsync(int usuarioId, int productoId)
+        {
+            var item = _carritoItems.FirstOrDefault(c => c.UsuarioId == usuarioId && c.ProductoId == productoId);
+            if (item != null)
+            {
+                _carritoItems.Remove(item);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        public Task VaciarCarritoAsync(int usuarioId)
+        {
+            _carritoItems.RemoveAll(c => c.UsuarioId == usuarioId);
+            return Task.CompletedTask;
         }
     }
 }

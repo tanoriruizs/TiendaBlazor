@@ -1,4 +1,48 @@
 ﻿@page "/cliente-page"
+@using TiendaBlazor.Models
 @attribute [Authorize(Roles = "Cliente")]
 
-<h3>Productos</h3>
+@inject TiendaBlazor.Services.ProductoService ProductoService
+
+<div class="header-container">
+    <div class="spacer"></div>
+    <div class="user-info">
+        Hola Cliente
+    </div>
+    <div class="cart-icon">
+        <i class="bi bi-cart2"></i>
+        <span class="cart-count">2</span> 
+    </div>
+</div>
+
+<p>Agrega a tu carrito los artículos que deseas comprar</p>
+
+<div class="filter-buttons">
+    <button @onclick="MostrarTodos">Todos</button>
+    <button @onclick='() => FiltrarPorCategoria("Electronicos")'>Electrónicos</button>
+    <button @onclick='() => FiltrarPorCategoria("Ropa")'>Ropa</button>
+    <button @onclick='() => FiltrarPorCategoria("Calzado")'>Calzado</button>
+    <button @onclick='() => FiltrarPorCategoria("Linea Blanca")'>Línea Blanca</button>
+</div>
+
+@if (productosFiltrados == null || !productosFiltrados.Any())
+{
+    <p>No hay productos disponibles.</p>
+}
+else
+{
+    <div class="productos-container">
+        @foreach (var producto in productosFiltrados)
+        {
+            <div class="producto-card">
+                <img src="@GetImageSource(producto.Imagen, producto.TipoImagen)" alt="@producto.Nombre" />
+                <div>
+                    <h4>@producto.Nombre</h4>
+                    <p>$ @producto.Precio</p>
+                    <button @onclick="() => AgregarAlCarrito(producto)">Agregar</button>
+                </div>
+            </div>
+        }
+    </div>
+}
+

@@ -1,4 +1,4 @@
-﻿namespace BlazorWeb.Models
+﻿namespace TiendaBlazor.Models
 {
     public class Carrito
     {

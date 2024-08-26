@@ -1,0 +1,118 @@
+﻿.header-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+}
+
+.spacer {
+    flex-grow: 1;
+}
+
+.user-info {
+    font-size: 1.2rem;
+    color: #333;
+    margin-right: 20px;
+}
+
+.cart-icon {
+    position: relative;
+    font-size: 1.5rem;
+    color: #333;
+    cursor: pointer;
+}
+
+    .cart-icon .cart-count {
+        font-size: 1rem;
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        background-color: #353C59;
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        font-size: 0.8rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+.filter-buttons {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+}
+
+    .filter-buttons button {
+        background-color: #f0f0f0;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .filter-buttons button:hover {
+            background-color: #ddd;
+        }
+
+.productos-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.producto-card {
+    background-color: #E0E3F0;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+}
+
+    .producto-card img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin-bottom: 12px;
+    }
+
+    .producto-card h4 {
+        font-size: 1.25rem;
+        color: #686B75;
+        margin-bottom: 8px;
+    }
+
+    .producto-card p {
+        font-size: 1rem;
+        color: #000000;
+        font-weight: bold;
+    }
+
+    .producto-card button {
+        background-color: #353C59;
+        border-radius: 0.5rem;
+        padding: 8px 12px;
+        color: white;
+        font-size: 14px;
+        width: 8rem;
+        border: none;
+        transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+        cursor: pointer;
+    }
+
+        .producto-card button:hover {
+            background-color: #272d45;
+        }
+
+        .producto-card button:active {
+            transform: scale(0.95);
+        }
+
+        .producto-card button:focus {
+            outline: none;
+            box-shadow: none;
+        }
