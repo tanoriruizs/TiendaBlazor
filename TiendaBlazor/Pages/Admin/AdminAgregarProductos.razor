@@ -15,24 +15,19 @@
     <ValidationSummary />
 
     <div class="mb-3">
-        <label for="nombre" class="form-label">Nombre</label>
-        <InputText id="nombre" class="form-control" @bind-Value="nuevoProducto.Nombre" />
+        <InputText id="nombre" class="form-control form-style" @bind-Value="nuevoProducto.Nombre" placeholder="Nombre" />
     </div>
     <div class="mb-3">
-        <label for="descripcion" class="form-label">Descripción</label>
-        <InputTextArea id="descripcion" class="form-control" @bind-Value="nuevoProducto.Descripcion" />
+        <InputTextArea id="descripcion" class="form-control form-style" @bind-Value="nuevoProducto.Descripcion" placeholder="Descripcion" />
     </div>
     <div class="mb-3">
-        <label for="precio" class="form-label">Precio</label>
-        <InputNumber id="precio" class="form-control" @bind-Value="nuevoProducto.Precio" />
+        <InputNumber id="precio" class="form-control form-style" @bind-Value="nuevoProducto.Precio" placeholder="Precio" />
     </div>
     <div class="mb-3">
-        <label for="stock" class="form-label">Stock</label>
-        <InputNumber id="stock" class="form-control" @bind-Value="nuevoProducto.Stock" />
+        <InputNumber id="stock" class="form-control form-style" @bind-Value="nuevoProducto.Stock" placeholder="Stock" />
     </div>
     <div class="mb-3">
-        <label for="categoria" class="form-label">Categoría</label>
-        <InputSelect id="categoria" class="form-control" @bind-Value="nuevoProducto.Categoria">
+        <InputSelect id="categoria" class="form-control form-style" @bind-Value="nuevoProducto.Categoria">
             <option value="">Seleccione una categoría</option>
             <option value="Electronicos">Electrónicos</option>
             <option value="Ropa">Ropa</option>
@@ -41,28 +36,17 @@
         </InputSelect>
     </div>
     <div class="mb-3">
-        <label for="imagen" class="form-label">Imagen</label>
-        <InputFile id="imagen" class="form-control" OnChange="OnInputFileChange" />
+        <label for="imagen" class="custom-file-upload">
+            <div class="upload-area" id="upload-area">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M4 4H20V20H4V4ZM3 2C2.44772 2 2 2.44772 2 3V21C2 21.5523 2.44772 22 3 22H21C21.5523 22 22 21.5523 22 21V3C22 2.44772 21.5523 2 21 2H3ZM12 7C12.5523 7 13 7.44772 13 8V13.5858L14.2929 12.2929C14.6834 11.9024 15.3166 11.9024 15.7071 12.2929C16.0976 12.6834 16.0976 13.3166 15.7071 13.7071L12.7071 16.7071C12.3166 17.0976 11.6834 17.0976 11.2929 16.7071L8.29289 13.7071C7.90237 13.3166 7.90237 12.6834 8.29289 12.2929C8.68342 11.9024 9.31658 11.9024 9.70711 12.2929L11 13.5858V8C11 7.44772 11.4477 7 12 7Z" fill="#686B75" />
+                </svg>
+                <p id="file-name">@fileName</p>
+            </div>
+        </label>
+        <InputFile id="imagen" OnChange="OnInputFileChange" class="form-control" style="display: none;" />
     </div>
 
     <button type="submit" class="btn btn-primary">Agregar Producto</button>
 </EditForm>
 
-@code {
-    private Producto nuevoProducto = new Producto();
-
-    private async Task AgregarProducto()
-    {
-        await ProductoService.AddProductoAsync(nuevoProducto);
-        NavigationManager.NavigateTo("/admin-productos"); // Redirige a una página de listado de productos
-    }
-
-    private async Task OnInputFileChange(InputFileChangeEventArgs e)
-    {
-        var file = e.File;
-        var buffer = new byte[file.Size];
-        await file.OpenReadStream().ReadAsync(buffer);
-        nuevoProducto.Imagen = buffer;
-        nuevoProducto.TipoImagen = file.ContentType;
-    }
-}

@@ -19,7 +19,7 @@ namespace TiendaBlazor.Pages.Admin
 
         private void EditarProducto(int id)
         {
-            NavigationManager.NavigateTo($"/editar-producto/{id}");
+            NavigationManager.NavigateTo($"/admin-editar/{id}");
         }
 
         private async Task EliminarProducto(int id)

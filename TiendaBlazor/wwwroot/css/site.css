@@ -93,3 +93,22 @@ a, .btn-link {
         box-shadow: 0 1px 3px rgba(51, 57, 82, 0.12), 0 1px 2px rgba(51, 57, 82, 0.24);
         background-color: #DCE1EE;
     }
+
+.form-style {
+    border-radius: 0.5rem;
+    background-color: #E0E3F0;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    color: #686B75;
+    width: 100%;
+    max-width: 390px;
+    margin: 0; 
+    text-align: left; 
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+    .form-style:focus {
+        box-shadow: 0 1px 3px rgba(51, 57, 82, 0.12), 0 1px 2px rgba(51, 57, 82, 0.24);
+        background-color: #DCE1EE;
+    }
