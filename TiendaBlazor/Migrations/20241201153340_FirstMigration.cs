@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -21,7 +22,7 @@ namespace TiendaBlazor.Migrations
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Categoria = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Precio = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Precio = table.Column<decimal>(type: "decimal(18,4)", precision: 18, scale: 4, nullable: false),
                     Stock = table.Column<int>(type: "int", nullable: false),
                     Imagen = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     TipoImagen = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -38,7 +39,7 @@ namespace TiendaBlazor.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Correo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Contraseña = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rol = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -53,9 +54,11 @@ namespace TiendaBlazor.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false),
                     ProductoId = table.Column<int>(type: "int", nullable: false),
-                    Cantidad = table.Column<int>(type: "int", nullable: false),
-                    UsuarioId = table.Column<int>(type: "int", nullable: false)
+                    Total = table.Column<decimal>(type: "decimal(18,4)", precision: 18, scale: 4, nullable: false),
+                    Estado = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EstadoFecha = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -93,7 +96,7 @@ namespace TiendaBlazor.Migrations
 
             migrationBuilder.InsertData(
                 table: "Usuarios",
-                columns: new[] { "Id", "Contraseña", "Correo", "Nombre", "Rol" },
+                columns: new[] { "Id", "Contraseña", "Email", "Nombre", "Rol" },
                 values: new object[,]
                 {
                     { 1, "admin123", "admin@correo.com", "Admin", "Admin" },

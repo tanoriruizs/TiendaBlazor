@@ -1,6 +1,7 @@
 ﻿using TiendaBlazor.Models;
 using TiendaBlazor.Services;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Components;
 
 namespace TiendaBlazor.Pages.Admin
 {
@@ -9,6 +10,8 @@ namespace TiendaBlazor.Pages.Admin
         private Producto nuevoProducto = new Producto();
         private string fileName = "Carga tu imagen";
         private string errorMessage;
+        private string precioInput;
+        private string stockInput;
 
         private async Task AgregarProducto()
         {
@@ -94,6 +97,32 @@ namespace TiendaBlazor.Pages.Admin
             }
 
             return true;
+        }
+
+        private void ValidarPrecio(ChangeEventArgs e)
+        {
+            precioInput = e.Value.ToString();
+            if (decimal.TryParse(precioInput, out decimal precio))
+            {
+                nuevoProducto.Precio = precio;
+            }
+            else
+            {
+                precioInput = string.Empty; 
+            }
+        }
+
+        private void ValidarStock(ChangeEventArgs e)
+        {
+            stockInput = e.Value.ToString();
+            if (int.TryParse(stockInput, out int stock))
+            {
+                nuevoProducto.Stock = stock;
+            }
+            else
+            {
+                stockInput = string.Empty;
+            }
         }
     }
 }

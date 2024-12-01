@@ -8,7 +8,7 @@ namespace TiendaBlazor.Pages
 {
     public partial class Login
     {
-        private string correo;
+        private string email;
         private string contraseña;
         private bool loginFailed;
 
@@ -24,14 +24,13 @@ namespace TiendaBlazor.Pages
         private async Task HandleLogin()
         {
             var user = await _context.Usuarios
-                .FirstOrDefaultAsync(u => u.Correo == correo && u.Contraseña == contraseña);
+                .FirstOrDefaultAsync(u => u.Email == email && u.Contraseña == contraseña);
 
             if (user != null)
             {
                 var customAuthStateProvider = (CustomAuthenticationStateProvider)AuthenticationStateProvider;
-                customAuthStateProvider.MarkUserAsAuthenticated(user.Correo, user.Rol);
+                customAuthStateProvider.MarkUserAsAuthenticated(user.Email, user.Rol);
 
-                // Redirige al usuario según su rol
                 if (user.Rol == "Admin")
                 {
                     Navigation.NavigateTo("/admin-productos");

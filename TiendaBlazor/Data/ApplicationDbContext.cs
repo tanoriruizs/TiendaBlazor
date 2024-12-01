@@ -16,9 +16,18 @@ namespace TiendaBlazor.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Configuración de precisión para Producto.Precio y Carrito.Total
+            modelBuilder.Entity<Producto>()
+                .Property(p => p.Precio)
+                .HasPrecision(18, 4);
+
+            modelBuilder.Entity<Carrito>()
+                .Property(c => c.Total)
+                .HasPrecision(18, 4);
+
             modelBuilder.Entity<Usuario>().HasData(
-                new Usuario { Id = 1, Nombre = "Admin", Correo = "admin@correo.com", Contraseña = "admin123", Rol = "Admin" },
-                new Usuario { Id = 2, Nombre = "Cliente", Correo = "cliente@correo.com", Contraseña = "cliente123", Rol = "Cliente" }
+                new Usuario { Id = 1, Nombre = "Admin", Email = "admin@correo.com", Contraseña = "admin123", Rol = "Admin" },
+                new Usuario { Id = 2, Nombre = "Cliente", Email = "cliente@correo.com", Contraseña = "cliente123", Rol = "Cliente" }
             );
 
             modelBuilder.Entity<Producto>().HasData(
@@ -33,6 +42,11 @@ namespace TiendaBlazor.Data
                 new Producto { Id = 9, Nombre = "Audifonos", Descripcion = "Audifonos modernos", Precio = 90.99m, Stock = 900, Categoria = "Electronicos", Imagen = File.ReadAllBytes("wwwroot/img/productos/audifonos.webp"), TipoImagen = "image/webp" },
                 new Producto { Id = 10, Nombre = "Playera Adidas", Descripcion = "PLayera comoda", Precio = 100.99m, Stock = 1000, Categoria = "Ropa", Imagen = File.ReadAllBytes("wwwroot/img/productos/playeraadidas.jpg"), TipoImagen = "image/jpg" }
             );
+        }
+
+        private static byte[] LeerImagen(string ruta)
+        {
+            return File.Exists(ruta) ? File.ReadAllBytes(ruta) : new byte[0];
         }
     }
 }

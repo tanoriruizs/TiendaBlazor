@@ -9,7 +9,7 @@ namespace TiendaBlazor.Pages
     public partial class Register
     {
         private string nombre; 
-        private string correo;
+        private string email;
         private string contraseña;
         private string confirmarContraseña;
         private bool registrationFailed;
@@ -32,7 +32,7 @@ namespace TiendaBlazor.Pages
                     var newUser = new Usuario
                     {
                         Nombre = nombre,
-                        Correo = correo,
+                        Email = email,
                         Contraseña = contraseña,
                         Rol = "Cliente"
                     };

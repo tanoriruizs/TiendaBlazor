@@ -21,11 +21,13 @@
         <InputTextArea id="descripcion" class="form-control form-style" @bind-Value="nuevoProducto.Descripcion" placeholder="Descripcion" />
     </div>
     <div class="mb-3">
-        <InputNumber id="precio" class="form-control form-style" @bind-Value="nuevoProducto.Precio" placeholder="Precio" />
+        <InputText id="precio" class="form-control form-style" @bind-Value="precioInput" placeholder="Precio" @oninput="ValidarPrecio" />
     </div>
+
     <div class="mb-3">
-        <InputNumber id="stock" class="form-control form-style" @bind-Value="nuevoProducto.Stock" placeholder="Stock" />
+        <InputText id="stock" class="form-control form-style" @bind-Value="stockInput" placeholder="Stock" @oninput="ValidarStock" />
     </div>
+
     <div class="mb-3">
         <InputSelect id="categoria" class="form-control form-style" @bind-Value="nuevoProducto.Categoria">
             <option value="">Seleccione una categoría</option>
@@ -49,4 +51,3 @@
 
     <button type="submit" class="btn btn-primary">Agregar Producto</button>
 </EditForm>
-

@@ -26,7 +26,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 builder.Services.AddScoped<CustomAuthenticationStateProvider>();
-builder.Services.AddScoped<CarritoService>();
 builder.Services.AddScoped<ProductoService>();
 
 var app = builder.Build();
