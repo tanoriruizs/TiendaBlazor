@@ -10,9 +10,14 @@
     <h2>Productos</h2>
 </div>
 
-<div class="mb-3">
-    <InputText class="form-control custom-input" id="search" @bind-Value="searchTerm" placeholder="Ingrese la categoría."
-               @oninput="Buscar" />
+<div class="mb-3" style="display: flex; align-items: center; border-radius: 10px; padding: 5px;">
+    <input type="text"
+           class="form-control custom-input"
+           id="search"
+           bind-value="searchTerm"
+           placeholder="Ingrese la categoría."
+           style="border: none; box-shadow: none; background-color: #EDEEF9; border-radius: 10px; flex-grow: 1; outline: none;">
+    <i class="bi bi-search" style="margin-left: 8px; font-size: 1.5rem; color: #2C2C3D;"></i>
 </div>
 
 @if (productosFiltrados == null)
@@ -70,7 +75,6 @@ else
     </table>
 }
 
-<button @onclick="Logout" class="btn btn-secondary mt-3">Cerrar Sesión</button>
 
 @code {
     private List<Producto> productos = new();
@@ -141,10 +145,5 @@ else
     {
         searchTerm = e.Value?.ToString() ?? string.Empty;
         FiltrarProductos();
-    }
-
-    private void Logout()
-    {
-        NavigationManager.NavigateTo("/logout", forceLoad: true);
     }
 }

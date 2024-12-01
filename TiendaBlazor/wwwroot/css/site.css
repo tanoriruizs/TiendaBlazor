@@ -75,6 +75,25 @@ a, .btn-link {
         content: "An error has occurred."
     }
 
+.form-control {
+    border-radius: 0.5rem;
+    background-color: #E0E3F0;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    color: #686B75;
+    width: 60%;
+    max-width: 390px;
+    margin: 0 auto;
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+    .form-control:focus {
+        box-shadow: 0 1px 3px rgba(51, 57, 82, 0.12), 0 1px 2px rgba(51, 57, 82, 0.24);
+        background-color: #DCE1EE;
+    }
+
+
 .custom-input {
     border-radius: 0.5rem !important;
     background-color: #E0E3F0 !important;
