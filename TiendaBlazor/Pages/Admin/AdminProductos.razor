@@ -1,11 +1,9 @@
-﻿@page "/admin-productos"
-@using TiendaBlazor.Models
-@using TiendaBlazor.Services
-@attribute [Authorize(Roles = "Admin")]
-
+﻿@page "/admin"
+@attribute [Authorize(Policy = "AdminPolicy")]
 @inject ProductoService ProductoService
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 
 <div class="container text-center container-style mb-3">
@@ -16,9 +14,6 @@
     <InputText class="form-control custom-input" id="search" @bind-Value="searchTerm" placeholder="Ingrese la categoría."
                @oninput="Buscar" />
 </div>
-
-
-
 
 @if (productosFiltrados == null)
 {
@@ -35,7 +30,7 @@ else
             <tr>
                 <th>Imagen</th>
                 <th>Nombre</th>
-                <th>Categoria</th>
+                <th>Categoría</th>
                 <th>Precio</th>
                 <th>Stock</th>
                 <th class="actions-header">Acciones</th>
@@ -67,7 +62,6 @@ else
                             <button class="btn btn-danger btn-style" @onclick="() => EliminarProducto(producto.Id)">
                                 <i class="bi bi-trash"></i> Eliminar
                             </button>
-
                         </div>
                     </td>
                 </tr>
@@ -76,3 +70,81 @@ else
     </table>
 }
 
+<button @onclick="Logout" class="btn btn-secondary mt-3">Cerrar Sesión</button>
+
+@code {
+    private List<Producto> productos = new();
+    private List<Producto> productosFiltrados = new();
+    private string searchTerm = string.Empty;
+    private string? UserName;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Obtener el estado de autenticación
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity is { IsAuthenticated: true })
+        {
+            if (user.IsInRole("Admin"))
+            {
+                UserName = user.Identity.Name;
+
+                // Cargar productos
+                productos = (await ProductoService.GetAllProductosAsync()).ToList();
+                productosFiltrados = productos;
+            }
+            else
+            {
+                // Redirigir si no tiene el rol adecuado
+                NavigationManager.NavigateTo("/NoAutorizado");
+            }
+        }
+        else
+        {
+            // Redirigir al login si no está autenticado
+            NavigationManager.NavigateTo("/Login");
+        }
+    }
+
+    private void EditarProducto(int id)
+    {
+        NavigationManager.NavigateTo($"/admin-editar/{id}");
+    }
+
+    private async Task EliminarProducto(int id)
+    {
+        bool confirmado = await JsRuntime.InvokeAsync<bool>("confirm", "¿Estás seguro de que deseas eliminar este producto?");
+        if (confirmado)
+        {
+            await ProductoService.DeleteProductoAsync(id);
+            productos = (await ProductoService.GetAllProductosAsync()).ToList();
+            FiltrarProductos();
+        }
+    }
+
+    private void FiltrarProductos()
+    {
+        if (string.IsNullOrWhiteSpace(searchTerm))
+        {
+            productosFiltrados = productos;
+        }
+        else
+        {
+            productosFiltrados = productos
+                .Where(p => p.Categoria.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+    }
+
+    private void Buscar(ChangeEventArgs e)
+    {
+        searchTerm = e.Value?.ToString() ?? string.Empty;
+        FiltrarProductos();
+    }
+
+    private void Logout()
+    {
+        NavigationManager.NavigateTo("/logout", forceLoad: true);
+    }
+}

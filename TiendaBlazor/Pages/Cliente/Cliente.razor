@@ -1,8 +1,10 @@
-﻿@page "/cliente-page"
-@using TiendaBlazor.Models
-@attribute [Authorize(Roles = "Cliente")]
-
-@inject TiendaBlazor.Services.ProductoService ProductoService
+﻿@page "/cliente"
+@attribute [Authorize(Policy = "ClientePolicy")]
+@inject ProductoService ProductoService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ProductoService ProductoService
 
 <div class="header-container">
     <div class="spacer"></div>

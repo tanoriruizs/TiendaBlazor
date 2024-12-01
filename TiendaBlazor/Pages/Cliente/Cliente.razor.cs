@@ -1,4 +1,7 @@
-﻿using TiendaBlazor.Models;
+﻿using Microsoft.AspNetCore.Components;
+using System.Security.Claims;
+using TiendaBlazor.Data;
+using TiendaBlazor.Models;
 
 namespace TiendaBlazor.Pages.Cliente
 {
@@ -40,3 +43,4 @@ namespace TiendaBlazor.Pages.Cliente
         }
     }
 }
+

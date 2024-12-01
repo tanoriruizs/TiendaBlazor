@@ -1,4 +1,123 @@
-﻿@page "/login"
+﻿@page "/Login"
+@using Microsoft.AspNetCore.Components.Forms
+@inject NavigationManager Navigation
+
+@* <style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .fullscreen-div {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #353C59;
+    }
+
+    .container {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .logo img {
+        max-width: 250px;
+        margin-bottom: 20px;
+    }
+
+    .row {
+        margin-top: 50px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .login-container {
+        background-color: #FFFFFF !important;
+        padding: 70px;
+        border-radius: 1rem;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        height: 600px;
+        max-width: 900px;
+        text-align: center;
+        position: relative;
+    }
+
+    h3 {
+        color: #353C59;
+        font-weight: bold;
+    }
+
+    .form-control {
+        border-radius: 0.5rem;
+        background-color: #E0E3F0;
+        border: none;
+        padding: 10px;
+        font-size: 16px;
+        color: #686B75;
+        width: 60%;
+        max-width: 390px;
+        margin: 0 auto;
+        transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+        .form-control:focus {
+            box-shadow: 0 1px 3px rgba(51, 57, 82, 0.12), 0 1px 2px rgba(51, 57, 82, 0.24);
+            background-color: #DCE1EE;
+        }
+
+    .btn-primary {
+        width: 100%;
+        max-width: 22%;
+        background-color: #353C59;
+        font-size: 18px;
+        font-weight: bold;
+        padding: 10px;
+        border-radius: 0.5rem;
+        border: none;
+        transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+    }
+
+        .btn-primary:hover {
+            background-color: #272d45;
+        }
+
+    .container-info {
+        margin-top: 13.5rem;
+    }
+
+        .container-info p {
+            color: #686B75;
+        }
+
+        .container-info a {
+            color: #353C59;
+        }
+
+    .footer p {
+        font-size: 14px;
+        color: #686B75;
+        margin-top: 20px;
+    }
+
+    .alert-container {
+        position: relative;
+    }
+
+    .alert-danger {
+        background-color: #ffdddd;
+        color: #ff0000;
+        border-radius: 0.5rem;
+        position: relative;
+        width: 80%;
+        margin: 0 auto;
+        margin-top: 20px;
+    }
+</style> *@
 
 <div class="fullscreen-div">
     <div class="container">
@@ -8,25 +127,26 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-md-4 login-container">
-            <div class="mb-3">
-                <input @bind="email" id="email" class="form-control" placeholder="Email" />
-            </div>
-            <div class="mb-3">
-                <input @bind="contraseña" id="contraseña" type="password" class="form-control" placeholder="Contraseña" />
-            </div>
-            <button @onclick="HandleLogin" class="btn btn-primary btn-block">Ingresar</button>
-            <div class="alert-container">
-                @if (loginFailed)
-                {
-                    <div class="alert alert-danger text-center">Usuario o contraseña incorrectos</div>
-                }
-            </div>
+            @if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                <div class="alert alert-danger text-center">@ErrorMessage</div>
+            }
+
+            <EditForm Model="@loginModel" OnValidSubmit="HandleLogin">
+                <DataAnnotationsValidator />
+                <div class="mb-3">
+                    <InputText @bind-Value="loginModel.Email" id="email" class="form-control mx-auto" placeholder="Email" />
+                </div>
+                <div class="mb-4">
+                    <InputText @bind-Value="loginModel.Password" id="contraseña" type="password" class="form-control mx-auto" placeholder="Contraseña" />
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+            </EditForm>
+
             <div class="text-center container-info">
                 <p>¿Aún no tienes cuenta?</p>
                 <a href="/register" class="text-decoration-none">Regístrate</a>
             </div>
-
-
 
             <div class="footer text-center mt-4">
                 <p>Sebastian Gpe Tanori Ruiz | tanoriruizs@gmail.com</p>
@@ -34,3 +154,27 @@
         </div>
     </div>
 </div>
+
+@code {
+    private LoginModel loginModel = new();
+    private string? ErrorMessage;
+
+    private class LoginModel
+    {
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+    }
+
+    private async Task HandleLogin()
+    {
+        var queryParams = new Dictionary<string, string>
+        {
+            { "email", loginModel.Email },
+            { "password", loginModel.Password }
+        };
+
+        var queryString = string.Join("&", queryParams.Select(kvp => $"{kvp.Key}={Uri.EscapeDataString(kvp.Value)}"));
+
+        Navigation.NavigateTo($"/authenticate?{queryString}", forceLoad: true);
+    }
+}

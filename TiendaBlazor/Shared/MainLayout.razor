@@ -20,7 +20,11 @@
 </div>
 
 @code {
-    private bool IsSpecialPage => Navigation.Uri.EndsWith("/") ||
-                                  Navigation.Uri.Contains("/login") ||
-                                  Navigation.Uri.Contains("/register");
+    private bool IsSpecialPage => IsPage("/login") || IsPage("/register");
+
+    private bool IsPage(string page)
+    {
+        var currentUri = Navigation.Uri.ToLowerInvariant();
+        return currentUri.EndsWith(page, StringComparison.OrdinalIgnoreCase);
+    }
 }

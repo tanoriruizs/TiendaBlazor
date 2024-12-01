@@ -1,6 +1,7 @@
-﻿using TiendaBlazor.Models;
-using Microsoft.AspNetCore.Components.Forms;
+﻿using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components;
+using TiendaBlazor.Models;
+using TiendaBlazor.Data;
 
 namespace TiendaBlazor.Pages.Admin
 {
@@ -20,7 +21,7 @@ namespace TiendaBlazor.Pages.Admin
                 producto = await ProductoService.GetProductoByIdAsync(productoId);
                 if (producto == null)
                 {
-                    NavigationManager.NavigateTo("/admin-productos");
+                    NavigationManager.NavigateTo("/admin");
                 }
             }
             catch (Exception ex)
@@ -40,7 +41,7 @@ namespace TiendaBlazor.Pages.Admin
             try
             {
                 await ProductoService.UpdateProductoAsync(producto);
-                NavigationManager.NavigateTo("/admin-productos");
+                NavigationManager.NavigateTo("/admin");
             }
             catch (Exception ex)
             {

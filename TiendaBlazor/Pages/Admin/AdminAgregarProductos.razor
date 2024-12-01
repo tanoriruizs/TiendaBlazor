@@ -1,10 +1,9 @@
 ﻿@page "/admin-agregar"
-@using TiendaBlazor.Services
-
-@attribute [Authorize(Roles = "Admin")]
-
+@attribute [Authorize(Policy = "AdminPolicy")]
 @inject ProductoService ProductoService
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <div class="container text-center container-style mb-3">
     <h2>Agregar Producto</h2>

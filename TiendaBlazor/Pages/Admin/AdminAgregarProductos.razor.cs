@@ -1,5 +1,4 @@
 ﻿using TiendaBlazor.Models;
-using TiendaBlazor.Services;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components;
 
@@ -24,7 +23,7 @@ namespace TiendaBlazor.Pages.Admin
             try
             {
                 await ProductoService.AddProductoAsync(nuevoProducto);
-                NavigationManager.NavigateTo("/admin-productos");
+                NavigationManager.NavigateTo("/admin");
             }
             catch (Exception ex)
             {
