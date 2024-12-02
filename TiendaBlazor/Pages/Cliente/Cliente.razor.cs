@@ -9,9 +9,15 @@ namespace TiendaBlazor.Pages.Cliente
     {
         private IEnumerable<Producto> productos;
         private IEnumerable<Producto> productosFiltrados;
+        private string clienteNombre;
 
         protected override async Task OnInitializedAsync()
         {
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+
+            clienteNombre = user.Identity.IsAuthenticated ? user.Identity.Name : "Cliente";
+
             productos = await ProductoService.GetAllProductosAsync();
             productosFiltrados = productos;
         }

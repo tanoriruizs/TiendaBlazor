@@ -9,7 +9,14 @@
 <div class="header-container">
     <div class="spacer"></div>
     <div class="user-info">
-        Hola Cliente
+        @if (!string.IsNullOrEmpty(clienteNombre))
+        {
+            <p>Hola, @clienteNombre</p>
+        }
+        else
+        {
+            <p>Hola Invitado</p>
+        }
     </div>
     <div class="cart-icon">
         <i class="bi bi-cart2"></i>
