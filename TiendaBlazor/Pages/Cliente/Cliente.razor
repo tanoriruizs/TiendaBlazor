@@ -43,13 +43,13 @@ else
     <div class="productos-container">
         @foreach (var producto in productosFiltrados)
         {
-            <div class="producto-card">
+            <div class="producto-card" @onclick="() => NavegarADetalleProducto(producto.Id)" style="cursor: pointer;">
                 <img src="@GetImageSource(producto.Imagen, producto.TipoImagen)" alt="@producto.Nombre" />
                 <div class="info-style text-start">
                     <h4>@producto.Nombre</h4>
                     <p>$ @producto.Precio</p>
                 </div>
-                    <button @onclick="() => AgregarAlCarrito(producto)">Agregar</button>
+                <button @onclick="() => AgregarAlCarrito(producto)">Agregar</button>
             </div>
         }
     </div>

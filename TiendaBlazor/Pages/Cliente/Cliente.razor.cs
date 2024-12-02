@@ -47,6 +47,10 @@ namespace TiendaBlazor.Pages.Cliente
             var base64String = Convert.ToBase64String(imageBytes);
             return $"data:{imageType};base64,{base64String}";
         }
+        private void NavegarADetalleProducto(int productoId)
+        {
+            NavigationManager.NavigateTo($"/producto/{productoId}");
+        }
     }
 }
 

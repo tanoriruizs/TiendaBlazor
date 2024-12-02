@@ -1,0 +1,73 @@
+﻿.container-style {
+    max-width: 100%;
+    color: white;
+    border-radius: 1rem;
+    background-color: #353C59;
+    padding: 1rem;
+    text-align: center;
+}
+
+.producto-detalle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.producto-imagen {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+}
+
+.producto-detalle h1 {
+    font-size: 2rem;
+    color: #353C59;
+}
+
+.producto-detalle p {
+    font-size: 1rem;
+    color: #5A5A5A;
+    text-align: center;
+    max-width: 600px;
+    margin: 0.5rem auto;
+}
+
+.producto-detalle .precio {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.btn-agregar {
+    background-color: #353C59;
+    border-radius: 0.5rem;
+    padding: 8px 12px;
+    color: white;
+    font-size: 14px;
+    width: 17rem;
+    border: none;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+    .btn-agregar:hover {
+        background-color: #272d45;
+    }
+
+    .btn-agregar:active {
+        transform: scale(0.95);
+    }
+
+    .btn-agregar:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+.producto-container {
+    background-color: #E0E3F0;
+    border-radius: 1rem;
+    padding: 2rem;
+    max-width: 600px;
+    margin: auto;
+}

@@ -1,0 +1,28 @@
+﻿@page "/producto/{ProductoId:int}"
+@attribute [Authorize(Policy = "ClientePolicy")]
+@inject ProductoService ProductoService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ProductoService ProductoService
+
+<div class="container text-center container-style mb-3">
+    <h2>Detalle del Producto</h2>
+</div>
+
+<div class="producto-container">
+    @if (producto == null)
+    {
+        <p>Cargando detalles del producto...</p>
+    }
+    else
+    {
+        <div class="producto-detalle">
+            <img class="producto-imagen" src="@GetImageSource(producto.Imagen, producto.TipoImagen)" alt="@producto.Nombre" />
+            <h1>@producto.Nombre</h1>
+            <p>@producto.Descripcion</p>
+            <p class="precio">Precio: $ @producto.Precio</p>
+            <button class="btn-agregar" @onclick="AgregarAlCarrito">Agregar al carrito</button>
+        </div>
+    }
+</div>
