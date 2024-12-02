@@ -38,13 +38,15 @@ else
         {
             <div class="producto-card">
                 <img src="@GetImageSource(producto.Imagen, producto.TipoImagen)" alt="@producto.Nombre" />
-                <div>
+                <div class="info-style text-start">
                     <h4>@producto.Nombre</h4>
                     <p>$ @producto.Precio</p>
-                    <button @onclick="() => AgregarAlCarrito(producto)">Agregar</button>
                 </div>
+                    <button @onclick="() => AgregarAlCarrito(producto)">Agregar</button>
             </div>
         }
     </div>
 }
+
+
 

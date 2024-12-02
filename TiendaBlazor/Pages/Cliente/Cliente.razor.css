@@ -47,7 +47,7 @@
 }
 
     .filter-buttons button {
-        background-color: #f0f0f0;
+        background-color: #E0E3F0;
         border: none;
         padding: 10px 20px;
         border-radius: 5px;
@@ -56,7 +56,7 @@
     }
 
         .filter-buttons button:hover {
-            background-color: #ddd;
+            background-color: #c6cbdd;
         }
 
 .productos-container {
@@ -71,6 +71,7 @@
     border-radius: 8px;
     padding: 16px;
     text-align: center;
+    height: fit-content;
 }
 
     .producto-card img {
@@ -90,6 +91,7 @@
         font-size: 1rem;
         color: #000000;
         font-weight: bold;
+        margin: 0 !important;
     }
 
     .producto-card button {
@@ -116,3 +118,10 @@
             outline: none;
             box-shadow: none;
         }
+.info-style {
+    background-color: white;
+    border-bottom-left-radius: 10px; 
+    border-bottom-right-radius: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+}

@@ -1,4 +1,6 @@
-﻿.container-style {
+﻿
+
+.container-style {
     max-width: 100%;
     color: white;
     border-radius: 1rem;
@@ -83,3 +85,37 @@ img {
         box-shadow: none;
     }
 
+#registrosVisibles-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    color: #2C2C3D;
+    margin-bottom: 50% !important;
+}
+
+#registrosVisibles {
+    appearance: none;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 5px 10px;
+    padding-right: 30px;
+    font-size: 1rem;
+    font-family: inherit;
+    text-align: center;
+    color: #2C2C3D;
+    width: 70px;
+    cursor: pointer;
+    outline: none;
+}
+
+    #registrosVisibles::after {
+        position: absolute;
+        right: 10px;
+        font-size: 1rem;
+        color: #2C2C3D;
+    }
+
+    #registrosVisibles:hover {
+        border-color: #888;
+    }
